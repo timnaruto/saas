@@ -8,10 +8,10 @@
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css.map' %}">
-  <title>Home Page</title>
 </head>
+{% include 'nav-bar.html' %}
+
 <body>
-  {% include 'nav-bar.html' %}
  {% block content %} 
  {% endblock %}
 </body>
