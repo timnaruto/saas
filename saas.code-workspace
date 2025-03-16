@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.fontSize": 10,
+		"screencastMode.fontSize": 20,
+		"debug.console.fontSize": 10
+	}
+}

@@ -1,0 +1,9 @@
+django
+djangorestframework
+django-cors-headers
+djangorestframework-jwt
+Pillow
+redis
+celery
+six
+stripe
