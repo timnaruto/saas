@@ -23,7 +23,7 @@ RUN mkdir -p /code
 WORKDIR /code
 
 # Copy Pipenv files and project code
-COPY Pipfile Pipfile.lock ./
+COPY images/backend/Pipfile images/backend/Pipfile.lock ./
 COPY backend/ ./backend/
 COPY .env .gitignore LICENSE Makefile railway.json README.md saas.code-workspace ./
 
