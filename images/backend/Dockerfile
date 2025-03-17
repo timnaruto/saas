@@ -23,7 +23,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Set the Django default project name
-ARG PROJ_NAME="saas"
+ARG PROJ_NAME="images/backend/core"
 
 # Create a bash script to run the Django project
 RUN printf "#!/bin/bash\n" > ./paracord_runner.sh && \
