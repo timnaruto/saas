@@ -2,13 +2,6 @@
 ARG PYTHON_VERSION=3.12-slim-bullseye
 FROM python:${PYTHON_VERSION}
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    libpq-dev \         # for PostgreSQL
-    libjpeg-dev \       # for Pillow
-    libcairo2 \         # for CairoSVG
-    gcc \              # for compilation
-    && rm -rf /var/lib/apt/lists/*
 
 # Install Pipenv
 RUN pip install --no-cache-dir pipenv
