@@ -24,7 +24,7 @@ WORKDIR /code
 
 # Copy Pipenv files and project code
 COPY images/backend/Pipfile images/backend/Pipfile.lock ./
-COPY backend/ ./backend/
+COPY images/backend/ ./images/backend/
 COPY .env .gitignore LICENSE Makefile railway.json README.md saas.code-workspace ./
 
 # Install dependencies into a Pipenv-managed virtual environment
