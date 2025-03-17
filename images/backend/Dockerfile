@@ -19,8 +19,8 @@ RUN apt-get update && apt-get install -y \
 RUN pip install --no-cache-dir pipenv
 
 # Create and set the working directory
-RUN mkdir -p /code
-WORKDIR /code
+RUN mkdir -p /backend
+WORKDIR /backend
 
 # Copy Pipenv files and project code
 COPY images/backend/Pipfile images/backend/Pipfile.lock ./
