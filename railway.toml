@@ -1,0 +1,12 @@
+{
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "images/backend/Dockerfile",
+    "watchPatterns": [
+      "images/backend/requirements.txt",
+      "images/**",
+      "railway.json",
+      "images/backend/Dockerfile"
+    ]
+  }
+}
