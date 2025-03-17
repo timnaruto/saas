@@ -1,7 +1,7 @@
 {
       "build": {
           "builder": "DOCKERFILE",
-          "dockerfilePath": "./Dockerfile",
+          "dockerfilePath": "images/backend/Dockerfile",
           "watchPatterns": [
               "images/backend/requirements.txt",
               "images/**",
