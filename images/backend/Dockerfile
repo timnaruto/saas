@@ -1,18 +1,13 @@
 # Set the Python version as a build-time argument
-# with Python 3.12 as the default
 ARG PYTHON_VERSION=3.12-slim-bullseye
 FROM python:${PYTHON_VERSION}
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    # for postgres
-    libpq-dev \
-    # for Pillow
-    libjpeg-dev \
-    # for CairoSVG
-    libcairo2 \
-    # for compilation
-    gcc \
+    libpq-dev \         # for PostgreSQL
+    libjpeg-dev \       # for Pillow
+    libcairo2 \         # for CairoSVG
+    gcc \              # for compilation
     && rm -rf /var/lib/apt/lists/*
 
 # Install Pipenv
@@ -28,16 +23,11 @@ COPY images/backend/ ./images/backend/
 COPY .env .gitignore LICENSE Makefile railway.json README.md saas.code-workspace ./
 
 # Install dependencies into a Pipenv-managed virtual environment
-RUN pipenv install --deploy
+RUN pipenv install --deploy --system
 
 # Set Python-related environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-
-# Since requirements.txt is present, install it as a fallback (optional)
-# Uncomment if you need both Pipenv and requirements.txt
-# COPY requirements.txt /tmp/requirements.txt
-# RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 # Set the Django default project name
 ARG PROJ_NAME="saas"
@@ -48,5 +38,8 @@ RUN printf "#!/bin/bash\n" > ./paracord_runner.sh && \
     printf "pipenv run python manage.py migrate --no-input\n" >> ./paracord_runner.sh && \
     printf "pipenv run gunicorn ${PROJ_NAME}.wsgi:application --bind \"[::]:\$RUN_PORT\"\n" >> ./paracord_runner.sh
 
+# Grant execute permission to the script
+RUN chmod +x ./paracord_runner.sh
 
-    
+# Command to run the script
+CMD ["./paracord_runner.sh"]
