@@ -48,14 +48,5 @@ RUN printf "#!/bin/bash\n" > ./paracord_runner.sh && \
     printf "pipenv run python manage.py migrate --no-input\n" >> ./paracord_runner.sh && \
     printf "pipenv run gunicorn ${PROJ_NAME}.wsgi:application --bind \"[::]:\$RUN_PORT\"\n" >> ./paracord_runner.sh
 
-# Make the bash script executable
-RUN chmod +x paracord_runner.sh
 
-# Clean up to reduce image size
-RUN apt-get remove --purge -y \
-    && apt-get autoremove -y \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Run the Django project via the runtime script
-CMD ./paracord_runner.sh
+    
