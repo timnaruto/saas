@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'communications.apps.CommunicationsConfig',
+    'commandsm.apps.CommandsmConfig',
     # Third party apps
     'rest_framework',
     'corsheaders',
