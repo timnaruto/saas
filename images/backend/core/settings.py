@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts.apps.AccountsConfig',
+    'accounts_manager.apps.AccountsConfig',
     'communications.apps.CommunicationsConfig',
     'commandsm.apps.CommandsmConfig',
 
@@ -49,11 +49,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'allauth',
+    'allauth_ui',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
-    'allauth_ui',
     'widget_tweaks',
 
 ]
@@ -67,7 +66,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     "allauth.account.middleware.AccountMiddleware",
-
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -76,7 +74,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates', BASE_DIR / 'accounts/templates', BASE_DIR / 'communications/templates'],
+        'DIRS': [BASE_DIR / 'templates', BASE_DIR / 'accounts_manager/templates', BASE_DIR / 'communications/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,8 +104,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
-ACCOUNT_AUTHENTICATION_METHOD="email"
-ACCOUNT_EMAIL_REQUIRED =True
+ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
+
 ACCOUNT_EMAIL_VERIFICATION="mandatory"
 # Django allauth config
 AUTHENTICATION_BACKENDS = [
@@ -122,16 +121,7 @@ AUTHENTICATION_BACKENDS = [
 
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        'APP': {
-            'client_id': '123',
-            'secret': '456',
-            'key': ''
-        }
-    }
+
 }
 
 # Internationalization
@@ -150,7 +140,7 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / "vendors"
-STATIC_ROOT = BASE_DIR / "local-cdn"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
