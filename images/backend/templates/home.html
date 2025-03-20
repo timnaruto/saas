@@ -13,6 +13,8 @@
     You are a User. Welcome {{ request.user }}
     {% else %}
     You are not authorized, try signing in again!!
+        <p>Login here!! <a href="{% url 'signin' %}">Sign In</a></p>
+
     {% endif %}
 </div>
 {% endblock %}
