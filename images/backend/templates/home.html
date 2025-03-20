@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 <head>
@@ -9,8 +8,12 @@
 </head>
 <body>
 {% block content %}
-  <h1>Welcome to the Home Page</h1>
-  <p>This is a simple HTML page.</p>
+<div>
+    {% if request.user.is_authenticated %}
+    You are a User. Welcome {{ request.user }}
+    {% else %}
+    You are not authorized, try signing in again!!
+    {% endif %}
+</div>
 {% endblock %}
-
 </body>
