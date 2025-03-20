@@ -9,3 +9,6 @@ six
 stripe
 django-storages
 decouple
+django-allauth[socialaccount]
+django-allauth-ui
+django-widget-tweaks

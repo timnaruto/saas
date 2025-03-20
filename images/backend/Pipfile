@@ -17,6 +17,10 @@ gunicorn = "*"
 helpers = "*"
 decouple = "*"
 dotenv = "*"
+django-storages = "*"
+django-allauth = {extras = ["socialaccount"], version = "*"}
+django-allauth-ui = "*"
+django-widget-tweaks = "*"
 
 [dev-packages]
 
