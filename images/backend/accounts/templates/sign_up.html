@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="login-container">
+    <h2>Sign Up</h2>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="input-group">
+            <label for="username">Username:</label>
+            <input id="username" name="username" required type="text" value="{{ request.POST.username|default:'' }}"placeholder= "username">
+        </div>
+        <div class="input-group">
+            <label for="fname">First name:</label>
+            <input id="fname" name="fname" required type="fname"placeholder="First Name">
+        </div>
+        <div class="input-group">
+          <label for="lname">Last Name:</label>
+          <input id="lname" name="lname" required type="lname"placeholder="Last Name">
+      </div>
+      <div class="input-group">
+        <label for="email">Email:</label>
+        <input id="email" name="email" required type="email"placeholder="Email">
+    </div>
+      <div class="input-group">
+        <label for="password">Password:</label>
+        <input id="password" name="password" required type="password" placeholder = "Password">
+    </div>
+    <div class="input-group">
+      <label for="password2">Confirm Password:</label>
+      <input id="password" name="password2" required type="password2" placeholder="Confirm Password">
+  </div>
+        <button type="submit">Sign In</button>
+    </form>
+</div>
+
+<style>
+    .login-container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .messages {
+        list-style: none;
+        padding: 0;
+        color: red;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .messages li {
+        background: #ffcccc;
+        padding: 10px;
+        border: 1px solid red;
+        border-radius: 5px;
+        text-align: center;
+        margin: 5px 0;
+    }
+
+    .input-group {
+        margin: 10px 0;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}

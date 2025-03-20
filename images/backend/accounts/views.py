@@ -1,9 +1,8 @@
 from django.contrib.auth import authenticate, login
 from django.core.mail import send_mail
-# accounts/views.py (or any app’s views.py)
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-
+from django.contrib import messages
 
 def send_test_email_view(request):
     try:
@@ -24,9 +23,7 @@ def home(request):
     return render(request, 'home.html')
 
 
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.contrib import messages
+
 
 
 def sign_in(request):
@@ -43,3 +40,9 @@ def sign_in(request):
             messages.error(request, "Invalid username or password")
 
     return render(request, "sign_in.html")
+
+
+def register_view(request):
+    if request.method == "POST":
+        print(request.POST)
+    return render(request, "sign_up.html")
