@@ -1,21 +1,37 @@
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+load_dotenv()  # Load environment variables from a .env file
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-key-for-dev')  # Fallback for dev
+# Email configuration
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.gmail.com")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", default=EMAIL_HOST)
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD",default='EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True") == "True"
+EMAIL_USE_SSL = os.environ.get("EMAIL_USE_SSL", "False") == "True"
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'  # Convert string to boolean, default to True
+ADMIN_USER_NAME = os.environ.get("ADMIN_USER_NAME", "Admin user")
+ADMIN_USER_EMAIL = os.environ.get("ADMIN_USER_EMAIL", None)
 
-# Allowed hosts configuration
-ALLOWED_HOSTS = ['*']  # Wildcard for simplicity; refine in production
+MANAGERS = []
+ADMINS = []
+if all([ADMIN_USER_NAME, ADMIN_USER_EMAIL]):
+    ADMINS += [(f'{ADMIN_USER_NAME}', f'{ADMIN_USER_EMAIL}')]
+    MANAGERS = ADMINS
 
+# Quick-start development settings
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
+BASE_URL = os.environ.get("BASE_URL", None)
+ALLOWED_HOSTS = [".railway.app"]
 if DEBUG:
-    # Extend ALLOWED_HOSTS for development
-    ALLOWED_HOSTS.extend(['localhost', '127.0.0.1'])
+    ALLOWED_HOSTS += ["127.0.0.1", "localhost"]
 
 # Application definition
 INSTALLED_APPS = [
@@ -28,13 +44,12 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'communications.apps.CommunicationsConfig',
     'commandsm.apps.CommandsmConfig',
-    # Third party apps
     'rest_framework',
     'corsheaders',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # Add this for CORS
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -87,19 +102,19 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = 'static/'
+STATICFILES_BASE_DIR = BASE_DIR / 'staticfiles'
+STATICFILES_BASE_DIR.mkdir(exist_ok=True, parents=True)
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
+STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / "vendors"
+STATICFILES_DIRS = [STATICFILES_BASE_DIR]
+STATIC_ROOT = BASE_DIR / "local-cdn"
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CORS settings (optional, configure as needed)
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-] if DEBUG else []
+# CORS settings
+CORS_ALLOWED_ORIGINS = ["http://localhost:8000", "http://127.0.0.1:8000"] if DEBUG else []
