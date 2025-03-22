@@ -39,7 +39,7 @@ def sign_in(request):
         else:
             messages.error(request, "Invalid username or password")
 
-    return render(request, "sign_in.html")
+    return render(request, "account/sign_in.html")
 
 
 def register_view(request):
@@ -81,4 +81,4 @@ def register_view(request):
             messages.error(request, f"Error creating account: {e}")
             return redirect("register")
 
-    return render(request, "sign_up.html")
+    return render(request, "account/sign_up.html")

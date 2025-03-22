@@ -41,19 +41,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts_manager.apps.AccountsConfig',
+    'accounts.apps.AccountsConfig',
     'communications.apps.CommunicationsConfig',
     'commandsm.apps.CommandsmConfig',
 
     #third-party apps
     'rest_framework',
     'corsheaders',
-    'allauth',
-    'allauth_ui',
-    'allauth.account',
+    # third-party-apps
+    "slippers",
+    "allauth_ui",
+    "allauth",
+    "allauth.account",
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
-    'widget_tweaks',
+    "widget_tweaks",
 
 ]
 
@@ -74,7 +76,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates', BASE_DIR / 'accounts_manager/templates', BASE_DIR / 'communications/templates'],
+        'DIRS': [BASE_DIR / 'templates', BASE_DIR / 'accounts/templates', BASE_DIR / 'communications/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -104,14 +106,17 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
-ACCOUNT_LOGIN_METHODS = {"email"}
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 
+LOGIN_REDIRECT_URL = "/"
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_VERIFICATION="mandatory"
+ACCOUNT_EMAIL_SUBJECT_PREFIX="[CFE] "
+ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 # Django allauth config
 AUTHENTICATION_BACKENDS = [
 
-    # Needed to login by username in Django admin, regardless of `allauth`
+    # Needed by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
 
     # `allauth` specific authentication methods, such as login by email
@@ -121,7 +126,13 @@ AUTHENTICATION_BACKENDS = [
 
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
-
+    'github': {
+        'SCOPE': [
+            'user',
+            'repo',
+            'read:org',
+        ],
+    }
 }
 
 # Internationalization
@@ -140,7 +151,7 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / "vendors"
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / "local-cdn"
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
